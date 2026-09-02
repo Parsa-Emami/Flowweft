@@ -1,0 +1,169 @@
+asyncapi: 3.1.0
+id: urn:parsa-security:flowweft:events:v1
+info:
+  title: FlowWeft Events
+  version: 1.0.0
+  description: Canonical application event contract. Delivery is at-least-once; consumers must be idempotent and deduplicate by event id.
+defaultContentType: application/json
+channels:
+  event_ingest_batch_completed_v1:
+    address: ingest.batch_completed.v1
+    messages:
+      IngestBatchCompletedV1Message:
+        $ref: '#/components/messages/IngestBatchCompletedV1Message'
+  event_feature_vector_created_v1:
+    address: feature.vector_created.v1
+    messages:
+      FeatureVectorCreatedV1Message:
+        $ref: '#/components/messages/FeatureVectorCreatedV1Message'
+  event_detector_inference_emitted_v1:
+    address: detector.inference_emitted.v1
+    messages:
+      DetectorInferenceEmittedV1Message:
+        $ref: '#/components/messages/DetectorInferenceEmittedV1Message'
+  event_incident_created_v1:
+    address: incident.created.v1
+    messages:
+      IncidentCreatedV1Message:
+        $ref: '#/components/messages/IncidentCreatedV1Message'
+  event_analyst_label_added_v1:
+    address: analyst.label_added.v1
+    messages:
+      AnalystLabelAddedV1Message:
+        $ref: '#/components/messages/AnalystLabelAddedV1Message'
+  event_model_promoted_v1:
+    address: model.promoted.v1
+    messages:
+      ModelPromotedV1Message:
+        $ref: '#/components/messages/ModelPromotedV1Message'
+  event_drift_detected_v1:
+    address: drift.detected.v1
+    messages:
+      DriftDetectedV1Message:
+        $ref: '#/components/messages/DriftDetectedV1Message'
+operations:
+  send_ingest_batch_completed_v1:
+    action: send
+    channel:
+      $ref: '#/channels/event_ingest_batch_completed_v1'
+    messages:
+    - $ref: '#/channels/event_ingest_batch_completed_v1/messages/IngestBatchCompletedV1Message'
+  send_feature_vector_created_v1:
+    action: send
+    channel:
+      $ref: '#/channels/event_feature_vector_created_v1'
+    messages:
+    - $ref: '#/channels/event_feature_vector_created_v1/messages/FeatureVectorCreatedV1Message'
+  send_detector_inference_emitted_v1:
+    action: send
+    channel:
+      $ref: '#/channels/event_detector_inference_emitted_v1'
+    messages:
+    - $ref: '#/channels/event_detector_inference_emitted_v1/messages/DetectorInferenceEmittedV1Message'
+  send_incident_created_v1:
+    action: send
+    channel:
+      $ref: '#/channels/event_incident_created_v1'
+    messages:
+    - $ref: '#/channels/event_incident_created_v1/messages/IncidentCreatedV1Message'
+  send_analyst_label_added_v1:
+    action: send
+    channel:
+      $ref: '#/channels/event_analyst_label_added_v1'
+    messages:
+    - $ref: '#/channels/event_analyst_label_added_v1/messages/AnalystLabelAddedV1Message'
+  send_model_promoted_v1:
+    action: send
+    channel:
+      $ref: '#/channels/event_model_promoted_v1'
+    messages:
+    - $ref: '#/channels/event_model_promoted_v1/messages/ModelPromotedV1Message'
+  send_drift_detected_v1:
+    action: send
+    channel:
+      $ref: '#/channels/event_drift_detected_v1'
+    messages:
+    - $ref: '#/channels/event_drift_detected_v1/messages/DriftDetectedV1Message'
+components:
+  messages:
+    IngestBatchCompletedV1Message:
+      name: ingest.batch_completed.v1
+      title: ingest.batch_completed.v1
+      payload:
+        $ref: '#/components/schemas/EventEnvelope'
+    FeatureVectorCreatedV1Message:
+      name: feature.vector_created.v1
+      title: feature.vector_created.v1
+      payload:
+        $ref: '#/components/schemas/EventEnvelope'
+    DetectorInferenceEmittedV1Message:
+      name: detector.inference_emitted.v1
+      title: detector.inference_emitted.v1
+      payload:
+        $ref: '#/components/schemas/EventEnvelope'
+    IncidentCreatedV1Message:
+      name: incident.created.v1
+      title: incident.created.v1
+      payload:
+        $ref: '#/components/schemas/EventEnvelope'
+    AnalystLabelAddedV1Message:
+      name: analyst.label_added.v1
+      title: analyst.label_added.v1
+      payload:
+        $ref: '#/components/schemas/EventEnvelope'
+    ModelPromotedV1Message:
+      name: model.promoted.v1
+      title: model.promoted.v1
+      payload:
+        $ref: '#/components/schemas/EventEnvelope'
+    DriftDetectedV1Message:
+      name: drift.detected.v1
+      title: drift.detected.v1
+      payload:
+        $ref: '#/components/schemas/EventEnvelope'
+  schemas:
+    EventEnvelope:
+      type: object
+      additionalProperties: false
+      required:
+      - specversion
+      - id
+      - source
+      - type
+      - time
+      - subject
+      - data
+      properties:
+        specversion:
+          type: string
+          const: '1.0'
+        id:
+          type: string
+          minLength: 16
+        source:
+          type: string
+          minLength: 1
+        type:
+          type: string
+          enum:
+          - ingest.batch_completed.v1
+          - feature.vector_created.v1
+          - detector.inference_emitted.v1
+          - incident.created.v1
+          - analyst.label_added.v1
+          - model.promoted.v1
+          - drift.detected.v1
+        time:
+          type: string
+          format: date-time
+        subject:
+          type: string
+        traceparent:
+          type:
+          - string
+          - 'null'
+        datacontenttype:
+          type: string
+          const: application/json
+        data:
+          type: object

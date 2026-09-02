@@ -1,0 +1,16 @@
+{
+  "project": "FlowWeft",
+  "envelope": "CloudEvents-compatible 1.0 profile",
+  "delivery": "at-least-once",
+  "ordering": "not globally guaranteed; per-aggregate sequencing when documented",
+  "deduplication": "required by event id",
+  "types": [
+    "ingest.batch_completed.v1",
+    "feature.vector_created.v1",
+    "detector.inference_emitted.v1",
+    "incident.created.v1",
+    "analyst.label_added.v1",
+    "model.promoted.v1",
+    "drift.detected.v1"
+  ]
+}
