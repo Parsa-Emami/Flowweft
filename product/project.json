@@ -1,0 +1,104 @@
+{
+  "folder": "08-flowweft",
+  "name": "FlowWeft",
+  "rank": 4,
+  "score": 7.6,
+  "verdict": "نسخهٔ batch/report مناسب‌تر از NDR زنده است؛ ML را بعد از baseline قابل‌اعتماد اضافه کن.",
+  "user": "تحلیلگر مستقل، تیم شبکهٔ کوچک و پژوهشگر امنیت",
+  "pain": "CSV و Zeek logs بزرگ خروجی پراکنده و بدون توضیح کافی دارند",
+  "value": "گزارش قابل‌بازتولید از رفتار جریان و anomaly با حدود اعتبار",
+  "wedge": "تحلیل offline/private batch با lineage و baseline روشن، بدون SIEM سنگین",
+  "alternatives": "Zeek، گزارش‌های سفارشی و ابزارهای NDR",
+  "source_ids": [
+    "zeek",
+    "duckdb"
+  ],
+  "mvp": [
+    "CSV و Zeek conn.log با schema mapping",
+    "Parquet partition + DuckDB embedded",
+    "baseline آماری قابل‌توضیح",
+    "داشبورد خصوصی و export گزارش"
+  ],
+  "later": [
+    "live packet capture روی سرور عمومی",
+    "ClickHouse streaming cluster",
+    "مدل ML production",
+    "IDS/NDR سازمانی real-time"
+  ],
+  "stack": [
+    "Python FastAPI service/CLI",
+    "DuckDB embedded analytics",
+    "Parquet immutable partitions",
+    "SQLite batch metadata",
+    "React UI"
+  ],
+  "mode": "private-web",
+  "stores": {
+    "Parquet": "normalized flow partitions and versioned feature snapshots",
+    "DuckDB": "embedded queries over committed Parquet; single controlled writer for derived catalogs",
+    "SQLite": "jobs, batch manifests, labels and processing checkpoints",
+    "Filesystem": "uploads with configured expiry and report exports"
+  },
+  "removed": [
+    "Laravel",
+    "PostgreSQL",
+    "ClickHouse",
+    "Valkey",
+    "mandatory S3"
+  ],
+  "limits": {
+    "batch_max_mib": 100,
+    "rows_per_batch": 1000000,
+    "job_concurrency": 1,
+    "upload_retention_days": 7,
+    "query_deadline_seconds": 10
+  },
+  "hardware": "private batch host هدف 2–4 vCPU / 4 GiB RAM / 20 GiB SSD؛ نیاز GPU ندارد. هدف 1M row باید benchmark شود.",
+  "weeks": "6–10 هفته بدون ML",
+  "risks": [
+    "anomaly مترادف حمله نیست",
+    "دیتاست پژوهشی و packet CSV با flow CSV یکسان نیستند؛ mapping باید بررسی شود",
+    "IP و timestamp دادهٔ حساس‌اند؛ redaction و retention لازم است"
+  ],
+  "uat": [
+    "CSV fixture و Zeek را normalize کن و mapping نامعتبر را quarantine کن",
+    "duplicate/reordered batch شناسه‌های برابر و بدون double count بدهد",
+    "report از همان partition و feature schema دوباره تولید شود؛ anomaly explanation حاضر باشد"
+  ],
+  "domain": {
+    "primary": "flow-batch",
+    "fields": {
+      "batch_id": "id",
+      "input_digest": "hash",
+      "source_format": "text",
+      "mapping_version": "text",
+      "row_count": "int",
+      "partitions": "array"
+    },
+    "invariants": [
+      "Observed flows separate from inference",
+      "Feature schema and input provenance bound",
+      "No duplicate counting and no train/test temporal leakage"
+    ]
+  },
+  "version": "0.0.0",
+  "status": "WEB_FOUNDATION",
+  "source_implemented": true,
+  "market_validation": "UNVALIDATED",
+  "assumption": "Browser application first; optional CLI/worker remains an engine adapter. Web foundation does not satisfy domain release gates.",
+  "engine_implemented": false,
+  "previous_engine_mode": "embedded-private",
+  "web_application": {
+    "status": "foundation_implemented",
+    "deployment_profile": "private-web",
+    "frontend": "React + TypeScript + Vite",
+    "web_runtime": "Node.js static shell; no engine proxy",
+    "default_engine_enabled": false,
+    "preview_storage": "tab memory only",
+    "offline_supported": false,
+    "engine_status": "planned",
+    "source": "apps/web/src/main.tsx",
+    "existing_backend": null
+  },
+  "web_version": "0.0.1"
+}
