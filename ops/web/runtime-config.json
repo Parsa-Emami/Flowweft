@@ -1,0 +1,6 @@
+{
+  "projectId": "flowweft",
+  "apiBasePath": "/api",
+  "engineEnabled": false,
+  "maxPreviewBytes": 1048576
+}

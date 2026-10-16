@@ -1,0 +1,7 @@
+{
+  "slug": "flowweft",
+  "name": "FlowWeft",
+  "title": "Trace patterns back to their source.",
+  "description": "A web workspace for network-flow batches, analytical explanations and reproducible provenance.",
+  "accent": "#91dcb8"
+}

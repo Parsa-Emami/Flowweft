@@ -1,0 +1,32 @@
+{
+  "project": "FlowWeft",
+  "version": "v1-reference",
+  "risk": "HIGH",
+  "runtime": [
+    "Laravel 13 control plane",
+    "Python feature/inference service",
+    "Zeek import pipeline",
+    "ClickHouse telemetry store",
+    "PostgreSQL 18 control/model registry",
+    "Valkey",
+    "S3/SeaweedFS raw input",
+    "OpenTelemetry"
+  ],
+  "final_decisions": [
+    "v1 collection is passive. Zeek logs and normalized flow CSV are primary inputs; raw PCAP parsing is delegated to mature capture/parsing tools rather than custom packet parsers.",
+    "Every record is explicitly Observed, Derived, Inferred or Analyst-authored. Inference is never stored as observed fact.",
+    "ClickHouse is the telemetry/time-series analytical store; PostgreSQL owns projects, schemas, model registry, incidents and analyst decisions.",
+    "TelemetryEnvelope v1 has schema_id/version, source, event_time, ingest_time, provenance, privacy labels and deterministic event identity.",
+    "First detector is a deterministic robust statistical baseline. First ML detector is Isolation Forest, versioned behind DetectorProvider; supervised XGBoost requires separately approved labeled data.",
+    "FeatureSchema v1 is immutable. Models bind to exact feature schema, training-data fingerprint, code version, threshold and evaluation report.",
+    "CI uses synthetic/generated datasets only. External datasets require license/privacy/redistribution review before repository inclusion.",
+    "Evaluation uses time-aware splits where chronology exists, duplicate/leakage checks, per-scenario metrics, calibration/threshold documentation and drift monitoring.",
+    "Explainability distinguishes exact deterministic drivers from model explanation approximations; the UI labels confidence/provenance."
+  ],
+  "data_ownership": {
+    "ClickHouse": "observed/derived/inferred telemetry",
+    "PostgreSQL": "schemas/models/incidents/analyst labels",
+    "ObjectStore": "raw uploads/dataset manifests/model artifacts",
+    "Valkey": "jobs/cache only"
+  }
+}

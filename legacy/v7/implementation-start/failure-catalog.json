@@ -1,0 +1,20 @@
+{
+  "project": "FlowWeft",
+  "failures": [
+    "malformed input",
+    "clock skew",
+    "duplicate event",
+    "schema mismatch",
+    "ClickHouse lag",
+    "feature worker backlog",
+    "cardinality explosion",
+    "privacy redaction failure",
+    "model mismatch"
+  ],
+  "required_result": [
+    "invariants preserved",
+    "observable failure",
+    "bounded retries",
+    "recovery/reconciliation succeeds"
+  ]
+}

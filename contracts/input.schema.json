@@ -1,0 +1,47 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:parsa:flowweft:input:0",
+  "title": "flow-batch planning draft",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "batch_id": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 128
+    },
+    "input_digest": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "source_format": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 4096
+    },
+    "mapping_version": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 4096
+    },
+    "row_count": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "partitions": {
+      "type": "array",
+      "maxItems": 100000,
+      "items": {
+        "type": "object"
+      }
+    }
+  },
+  "required": [
+    "batch_id",
+    "input_digest",
+    "source_format",
+    "mapping_version",
+    "row_count",
+    "partitions"
+  ]
+}
