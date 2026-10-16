@@ -1,0 +1,36 @@
+{
+  "project": "FlowWeft",
+  "status": "planned acceptance contract; not executed domain proof",
+  "input": "repository-authored synthetic licensed fixtures",
+  "steps": [
+    "Map synthetic Zeek/CSV",
+    "import duplicate/reordered batch",
+    "verify lineage",
+    "run statistical baseline",
+    "inspect explanation",
+    "export",
+    "recover manifests/partitions after process kill."
+  ],
+  "expected_invariants": [
+    "Observed flows separate from inference",
+    "Feature schema and input provenance bound",
+    "No duplicate counting and no train/test temporal leakage"
+  ],
+  "negative_uat": [
+    "CSV fixture و Zeek را normalize کن و mapping نامعتبر را quarantine کن",
+    "duplicate/reordered batch شناسه‌های برابر و بدون double count بدهد",
+    "report از همان partition و feature schema دوباره تولید شود؛ anomaly explanation حاضر باشد"
+  ],
+  "clean_host_commands": [
+    "git clone https://github.com/Parsa-Emami/Flowweft.git",
+    "cd Flowweft",
+    "npm run setup",
+    "npm start"
+  ],
+  "requires_at_C30": [
+    "real engine and required local providers",
+    "the entire workflow",
+    "restart and restore",
+    "no paid/cloud account or sibling clone"
+  ]
+}
